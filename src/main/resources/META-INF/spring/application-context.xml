@@ -23,6 +23,6 @@
 <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
 <!-- Configure the base package of Mongo Custom Repositories  -->	
-<mongo:repositories  base-package="com.anthem.repository" mongo-template-ref="mongoTemplate"/>
+<mongo:repositories  base-package="com.company.repository" mongo-template-ref="mongoTemplate"/>
 	
 </beans>

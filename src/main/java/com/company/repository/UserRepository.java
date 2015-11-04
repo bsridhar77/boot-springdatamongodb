@@ -1,10 +1,10 @@
-package com.anthem.repository;
+package com.company.repository;
 
 import java.math.BigInteger;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.anthem.model.User;
+import com.company.model.User;
 
 public interface UserRepository extends MongoRepository<User, BigInteger> {
     // 

@@ -1,4 +1,4 @@
-package com.anthem.controller;
+package com.company.controller;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anthem.model.User;
-import com.anthem.repository.UserRepository;
+import com.company.model.User;
+import com.company.repository.UserRepository;
 
 @RestController
 @RequestMapping("/books")

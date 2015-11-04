@@ -1,4 +1,4 @@
-package com.anthem.controller;
+package com.company.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anthem.model.User;
-import com.anthem.repository.UserRepository;
+import com.company.model.User;
+import com.company.repository.UserRepository;
 
 @RestController
 @RequestMapping("/quote")
