@@ -4,6 +4,7 @@ package com.company.model;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,9 +25,10 @@ public class Quote {
 		this.quoteReferenceNumber = quoteReferenceNumber;
 	}
 
-	
+	@NotEmpty
 	private String agentWritingTIN;
 	
+	@NotEmpty
 	private String agencyWritingTIN;
 	
 	private QuoteDemographics quoteDemographics;
@@ -86,14 +88,16 @@ public class Quote {
 	}
 
 
+	@NotEmpty
 	private String productOption;
 	
-
-
+	
 	private String status;
 	
+	@NotEmpty
 	private String createdByUser;
 	
+	@NotEmpty
 	private String modifiedByUser;
 	
 	

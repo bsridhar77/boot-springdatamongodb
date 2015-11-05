@@ -1,8 +1,11 @@
 package com.company.service;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.company.exception.ResourceNotFoundException;
 import com.company.model.Quote;
+import com.company.repository.MongoSequenceRepository;
 import com.company.repository.QuoteRepository;
 
 @RestController
@@ -25,7 +29,9 @@ public class QuoteService {
 
   @Autowired
   QuoteRepository quoteRepository;
-  
+ 
+  @Autowired
+  MongoSequenceRepository mongoSequenceRepository;
   
   @RequestMapping(value = "", method = RequestMethod.GET)
   public ResponseEntity<List<Quote>> getAllQuotes() {
@@ -68,11 +74,20 @@ public class QuoteService {
   
   
   @RequestMapping(value = "", method =RequestMethod.POST)
-  public ResponseEntity<?>  createQuote(@RequestBody Quote quote) {
+  public ResponseEntity<?>  createQuote(@Valid @RequestBody Quote quote) {
 	
 	  
 	  //Set the Current Date of quote creation
 	  quote.setCreatedDate(new Date());
+	  
+	  
+	  //Get the Next Sequence Number to use for Quote Reference Number
+	  BigInteger nextQuoteRefNo=mongoSequenceRepository.getNextSequence("quote");
+	  
+	  quote.setQuoteReferenceNumber(""+nextQuoteRefNo);
+	  
+	  
+	  //Save the Quote
 	  Quote rQuote=quoteRepository.save(quote);
 	
       // Set the location header for the newly created resource
