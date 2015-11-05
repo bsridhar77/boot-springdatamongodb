@@ -13,7 +13,7 @@ public class PlanHelper {
 
 	public void addPlanBenefitsToQuote(Quote quote) {
 
-		Iterator<ProductPlan> quoteProductsIter = quote.getProduct().iterator();
+		Iterator<ProductPlan> quoteProductsIter = quote.getProductRating().iterator();
 		while (quoteProductsIter.hasNext()) {
 			ProductPlan productPlan = (ProductPlan) quoteProductsIter.next();
 			productPlan.setPlanBenefits(getPlanBenefits(productPlan));

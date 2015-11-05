@@ -91,7 +91,7 @@ public class QuoteService {
 	public ResponseEntity<?> createQuote(@Valid @RequestBody Quote quote) {
 
 		// Set the Current Date of quote creation
-		quote.setCreatedDate(new Date());
+		quote.setCreatedOn(new Date());
 
 		// Get the Next Sequence Number to use for Quote Reference Number
 		BigInteger nextQuoteRefNo = mongoSequenceRepository
@@ -119,7 +119,7 @@ public class QuoteService {
 		verifyQuote(quote.getQuoteReferenceNumber());
 
 		// Set the Current Date of quote updation Date
-		quote.setModifiedDate(new Date());
+		quote.setLastModifiedOn(new Date());
 		quoteRepository.save(quote);
 
 		return new ResponseEntity<>(HttpStatus.OK);

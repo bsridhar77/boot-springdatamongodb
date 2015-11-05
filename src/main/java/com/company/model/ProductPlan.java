@@ -1,14 +1,24 @@
 package com.company.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class ProductPlan {
 
 	
+	@NotEmpty
 	private String contractCode;
+	
+	@NotEmpty
 	private String planCode;
+	
+	@NotEmpty
 	private String productCode;
 	
-	private String subsidizedMonthlyPremium;
-	private String totalMonthlyPremium;
+	@NotEmpty
+	private String subsidizedRatingAmount;
+	
+	@NotEmpty
+	private String totalRatingAmount;
 	
 	private PlanBenefits planBenefits;
 	
@@ -19,16 +29,16 @@ public class ProductPlan {
 		this.planBenefits = planBenefits;
 	}
 	public String getSubsidizedMonthlyPremium() {
-		return subsidizedMonthlyPremium;
+		return subsidizedRatingAmount;
 	}
 	public void setSubsidizedMonthlyPremium(String subsidizedMonthlyPremium) {
-		this.subsidizedMonthlyPremium = subsidizedMonthlyPremium;
+		this.subsidizedRatingAmount = subsidizedMonthlyPremium;
 	}
 	public String getTotalMonthlyPremium() {
-		return totalMonthlyPremium;
+		return totalRatingAmount;
 	}
 	public void setTotalMonthlyPremium(String totalMonthlyPremium) {
-		this.totalMonthlyPremium = totalMonthlyPremium;
+		this.totalRatingAmount = totalMonthlyPremium;
 	}
 	public String getContractCode() {
 		return contractCode;
