@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Quote { // extends AbstractDocument {
+public class Quote { 
 
 	
 	@Id
@@ -29,7 +29,18 @@ public class Quote { // extends AbstractDocument {
 	
 	private String agencyWritingTIN;
 	
+	private QuoteDemographics quoteDemographics;
 	
+
+	public QuoteDemographics getQuoteDemographics() {
+		return quoteDemographics;
+	}
+
+
+	public void setQuoteDemographics(QuoteDemographics quoteDemographics) {
+		this.quoteDemographics = quoteDemographics;
+	}
+
 
 	public String getAgentWritingTIN() {
 		return agentWritingTIN;
