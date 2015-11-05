@@ -16,6 +16,14 @@ public class Quote {
 	private String quoteReferenceNumber;
 
 
+	@NotEmpty
+	private String createdByUser;
+	
+	@NotEmpty
+	private String modifiedByUser;
+	
+	
+	
 	public String getQuoteReferenceNumber() {
 		return quoteReferenceNumber;
 	}
@@ -94,12 +102,7 @@ public class Quote {
 	
 	private String status;
 	
-	@NotEmpty
-	private String createdByUser;
-	
-	@NotEmpty
-	private String modifiedByUser;
-	
+
 	
 	
 	

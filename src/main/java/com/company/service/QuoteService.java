@@ -5,9 +5,12 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,11 +41,11 @@ public class QuoteService {
 	PlanHelper planHelper;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<List<Quote>> getAllQuotes() {
+	public ResponseEntity<Page<Quote>> getAllQuotes(Pageable pageable) {
 
-		List<Quote> quoteList = quoteRepository.findAll();
+		Page<Quote> quoteList = quoteRepository.findAll(pageable);
 
-		if (quoteList == null || quoteList.size() <= 0) {
+		if (quoteList == null || quoteList.getTotalPages()== 0) {
 			throw new ResourceNotFoundException(
 					"No Quotes found in the System ");
 		}
@@ -51,12 +54,13 @@ public class QuoteService {
 	}
 
 	@RequestMapping(value = "/agent/{agentTIN}", method = RequestMethod.GET)
-	public ResponseEntity<List<Quote>> getAgentQuotes(
-			@PathVariable String agentTIN) {
+	public ResponseEntity<Page<Quote>> getAgentQuotes(
+			@Valid @Nonnull @PathVariable String agentTIN,Pageable pageable) {
 
-		List<Quote> quoteList = quoteRepository.findByAgentWritingTIN(agentTIN);
+		
+		Page<Quote> quoteList = quoteRepository.findByAgentWritingTIN(agentTIN,pageable);
 
-		if (quoteList == null || quoteList.size() <= 0) {
+		if (quoteList == null || quoteList.getTotalPages() <= 0) {
 			throw new ResourceNotFoundException(
 					"No Quotes found for Agent Writing TIN: " + agentTIN);
 		}
