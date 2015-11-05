@@ -1,10 +1,10 @@
-package com.anthem.repository;
+package com.company.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.anthem.model.Quote;
+import com.company.model.Quote;
 
 public interface QuoteRepository extends MongoRepository<Quote, String> {
 

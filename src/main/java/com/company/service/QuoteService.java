@@ -1,4 +1,4 @@
-package com.anthem.service;
+package com.company.service;
 
 import java.math.BigInteger;
 import java.net.URI;
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.anthem.exception.ResourceNotFoundException;
-import com.anthem.helper.PlanHelper;
-import com.anthem.model.Quote;
-import com.anthem.repository.MongoSequenceRepository;
-import com.anthem.repository.QuoteRepository;
+import com.company.exception.ResourceNotFoundException;
+import com.company.helper.PlanHelper;
+import com.company.model.Quote;
+import com.company.repository.MongoSequenceRepository;
+import com.company.repository.QuoteRepository;
 
 @RestController
 @RequestMapping("/quote")

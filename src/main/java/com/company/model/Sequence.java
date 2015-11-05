@@ -1,4 +1,4 @@
-package com.anthem.model;
+package com.company.model;
 
 import java.math.BigInteger;
 

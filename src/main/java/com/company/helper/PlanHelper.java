@@ -1,12 +1,12 @@
-package com.anthem.helper;
+package com.company.helper;
 
 import java.util.Iterator;
 
 import org.springframework.stereotype.Component;
 
-import com.anthem.model.PlanBenefits;
-import com.anthem.model.ProductPlan;
-import com.anthem.model.Quote;
+import com.company.model.PlanBenefits;
+import com.company.model.ProductPlan;
+import com.company.model.Quote;
 
 @Component
 public class PlanHelper {

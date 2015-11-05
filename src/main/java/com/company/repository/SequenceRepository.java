@@ -1,8 +1,8 @@
-package com.anthem.repository;
+package com.company.repository;
 
 import org.springframework.data.repository.Repository;
 
-import com.anthem.model.Sequence;
+import com.company.model.Sequence;
 
 public interface SequenceRepository extends Repository<Sequence, String> {
 

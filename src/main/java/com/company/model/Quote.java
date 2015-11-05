@@ -1,5 +1,5 @@
 
-package com.anthem.model;
+package com.company.model;
 
 import java.util.Date;
 import java.util.List;
@@ -33,11 +33,11 @@ public class Quote {
 		this.quoteReferenceNumber = quoteReferenceNumber;
 	}
 
-	@NotEmpty
+	/*@NotEmpty
 	private String agentWritingTIN;
 	
 	@NotEmpty
-	private String agencyWritingTIN;
+	private String agencyWritingTIN;*/
 	
 	private QuoteDemographics quoteDemographics;
 	
@@ -52,7 +52,7 @@ public class Quote {
 	}
 
 
-	public String getAgentWritingTIN() {
+	/*public String getAgentWritingTIN() {
 		return agentWritingTIN;
 	}
 
@@ -69,7 +69,7 @@ public class Quote {
 
 	public void setAgencyWritingTIN(String agencyWritingTIN) {
 		this.agencyWritingTIN = agencyWritingTIN;
-	}
+	}*/
 
 
 	private List<Applicant> applicants;
@@ -102,6 +102,7 @@ public class Quote {
 	
 	private String status;
 	
+	Broker broker;
 
 	
 	
