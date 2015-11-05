@@ -1,4 +1,4 @@
-package com.company.repository;
+package com.anthem.repository;
 
 import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import com.company.model.Sequence;
+import com.anthem.model.Sequence;
 
 
 @Repository

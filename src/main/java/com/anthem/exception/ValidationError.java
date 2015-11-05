@@ -1,4 +1,4 @@
-package com.company.exception;
+package com.anthem.exception;
 
 public class ValidationError {
 	private String code;

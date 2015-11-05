@@ -1,4 +1,4 @@
-package com.company.exception;
+package com.anthem.exception;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.company;
+package com.anthem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

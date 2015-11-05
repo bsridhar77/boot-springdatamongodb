@@ -1,5 +1,5 @@
 
-package com.company.model;
+package com.anthem.model;
 
 
 
