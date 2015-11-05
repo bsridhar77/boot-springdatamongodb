@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.company.exception.ResourceNotFoundException;
+import com.company.helper.PlanHelper;
 import com.company.model.Quote;
 import com.company.repository.MongoSequenceRepository;
 import com.company.repository.QuoteRepository;
@@ -27,111 +28,117 @@ import com.company.repository.QuoteRepository;
 @RequestMapping("/quote")
 public class QuoteService {
 
-  @Autowired
-  QuoteRepository quoteRepository;
- 
-  @Autowired
-  MongoSequenceRepository mongoSequenceRepository;
-  
-  @RequestMapping(value = "", method = RequestMethod.GET)
-  public ResponseEntity<List<Quote>> getAllQuotes() {
-	  
-	  
-	  List<Quote> quoteList=quoteRepository.findAll();
-	  
-	  if(quoteList == null || quoteList.size()<=0) {
-          throw new ResourceNotFoundException("No Quotes found in the System ");
-	  }
-	  
-     return new ResponseEntity<> (quoteList, HttpStatus.OK);
-  }
+	@Autowired
+	QuoteRepository quoteRepository;
 
-  
-  @RequestMapping(value = "/agent/{agentTIN}", method = RequestMethod.GET)
-  public ResponseEntity<List<Quote>> getAgentQuotes(@PathVariable String agentTIN) {
-	  
-	  List<Quote> quoteList=quoteRepository.findByAgentWritingTIN(agentTIN);
-	  
-	  if(quoteList == null || quoteList.size()<=0) {
-          throw new ResourceNotFoundException("No Quotes found for Agent Writing TIN: " + agentTIN );
-	  }
-	  
-     return new ResponseEntity<> (quoteList, HttpStatus.OK);
-  }
-  
-  @RequestMapping(value = "/{qrefno}", method = RequestMethod.GET)
-  public ResponseEntity<Quote> getQuote(@PathVariable String qrefno) 
-  {
-	  Quote quote=quoteRepository.findOne(qrefno);
-	  
+	@Autowired
+	MongoSequenceRepository mongoSequenceRepository;
 	
-	  
-	  if(quote == null) {
-          throw new ResourceNotFoundException("Quote with Quote Reference Id " + qrefno + " not found");
-	  }
-     return new ResponseEntity<> (quote, HttpStatus.OK);
-  }
-  
-  
-  @RequestMapping(value = "", method =RequestMethod.POST)
-  public ResponseEntity<?>  createQuote(@Valid @RequestBody Quote quote) {
-	
-	  
-	  //Set the Current Date of quote creation
-	  quote.setCreatedDate(new Date());
-	  
-	  
-	  //Get the Next Sequence Number to use for Quote Reference Number
-	  BigInteger nextQuoteRefNo=mongoSequenceRepository.getNextSequence("quote");
-	  
-	  quote.setQuoteReferenceNumber(""+nextQuoteRefNo);
-	  
-	  
-	  //Save the Quote
-	  Quote rQuote=quoteRepository.save(quote);
-	
-      // Set the location header for the newly created resource
-      HttpHeaders responseHeaders = new HttpHeaders();
-      URI newQuoteUri = ServletUriComponentsBuilder
-                                            .fromCurrentRequest()
-                                            .path("/{id}")
-                                            .buildAndExpand(rQuote.getQuoteReferenceNumber())
-                                            .toUri();
-      responseHeaders.setLocation(newQuoteUri);
+	@Autowired
+	PlanHelper planHelper;
 
-      return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
-	  
-  }
-  
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ResponseEntity<List<Quote>> getAllQuotes() {
 
-  
-  @RequestMapping(value = "", method =RequestMethod.PUT)
-  public ResponseEntity<?>  updateQuote(@RequestBody Quote quote) {
+		List<Quote> quoteList = quoteRepository.findAll();
+
+		if (quoteList == null || quoteList.size() <= 0) {
+			throw new ResourceNotFoundException(
+					"No Quotes found in the System ");
+		}
+
+		return new ResponseEntity<>(quoteList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/agent/{agentTIN}", method = RequestMethod.GET)
+	public ResponseEntity<List<Quote>> getAgentQuotes(
+			@PathVariable String agentTIN) {
+
+		List<Quote> quoteList = quoteRepository.findByAgentWritingTIN(agentTIN);
+
+		if (quoteList == null || quoteList.size() <= 0) {
+			throw new ResourceNotFoundException(
+					"No Quotes found for Agent Writing TIN: " + agentTIN);
+		}
+
+		return new ResponseEntity<>(quoteList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{qrefno}", method = RequestMethod.GET)
+	public ResponseEntity<Quote> getQuote(@PathVariable String qrefno) {
+		Quote quote = quoteRepository.findOne(qrefno);
+
+		if (quote == null) {
+			throw new ResourceNotFoundException(
+					"Quote with Quote Reference Id " + qrefno + " not found");
+		}
+		
+		//Pass Product/Plan/Contract Codes as required to Plan Service and fetch Plan and Benefit Details
+		//Add the response from Plan Service to Quote Object and send the response
+		
+		planHelper.addPlanBenefitsToQuote(quote);
+		
+		return new ResponseEntity<>(quote, HttpStatus.OK);
+	}
+
+
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public ResponseEntity<?> createQuote(@Valid @RequestBody Quote quote) {
+
+		// Set the Current Date of quote creation
+		quote.setCreatedDate(new Date());
+
+		// Get the Next Sequence Number to use for Quote Reference Number
+		BigInteger nextQuoteRefNo = mongoSequenceRepository
+				.getNextSequence("quote");
+
+		quote.setQuoteReferenceNumber("" + nextQuoteRefNo);
+
+		// Save the Quote
+		Quote rQuote = quoteRepository.save(quote);
+
+		// Set the location header for the newly created resource
+		HttpHeaders responseHeaders = new HttpHeaders();
+		URI newQuoteUri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(rQuote.getQuoteReferenceNumber())
+				.toUri();
+		responseHeaders.setLocation(newQuoteUri);
+
+		return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateQuote(@RequestBody Quote quote) {
+
+		verifyQuote(quote.getQuoteReferenceNumber());
+
+		// Set the Current Date of quote updation Date
+		quote.setModifiedDate(new Date());
+		quoteRepository.save(quote);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/{quoteReferenceNumber}", method = RequestMethod.DELETE)
+	public long deleteQuote(@PathVariable String quoteReferenceNumber) {
+		verifyQuote(quoteReferenceNumber);
+		return quoteRepository
+				.deleteQuoteByQuoteReferenceNumber(quoteReferenceNumber);
+	}
+
 	
-	  verifyQuote(quote.getQuoteReferenceNumber());
-	  
-	  //Set the Current Date of quote updation Date
-	  quote.setModifiedDate(new Date());
-	  quoteRepository.save(quote);
-	  
-	  return new ResponseEntity<>(HttpStatus.OK);
+	
+	protected void verifyQuote(String quoteReferenceNumber)
+			throws ResourceNotFoundException {
+		Quote quote = quoteRepository.findOne(quoteReferenceNumber);
+		if (quote == null) {
+			throw new ResourceNotFoundException(
+					"Quote with Quote Reference Number " + quoteReferenceNumber
+							+ " not found");
+		}
+	}
 
-  }
-  
-  
-  @RequestMapping(value = "/{quoteReferenceNumber}", method =RequestMethod.DELETE)
-  public long deleteQuote(@PathVariable String quoteReferenceNumber) {
-	  verifyQuote(quoteReferenceNumber);
-	  return quoteRepository.deleteQuoteByQuoteReferenceNumber(quoteReferenceNumber);
-  }
-  
-  protected void verifyQuote(String quoteReferenceNumber) throws ResourceNotFoundException {
-      Quote quote = quoteRepository.findOne(quoteReferenceNumber);
-      if(quote == null) {
-              throw new ResourceNotFoundException("Quote with Quote Reference Number " + quoteReferenceNumber + " not found");
-      }
-}
-  
- 
-  
 }

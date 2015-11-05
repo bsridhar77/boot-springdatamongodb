@@ -3,13 +3,21 @@ package com.company.model;
 public class ProductPlan {
 
 	
-	String contractCode;
-	String planCode;
-	String productCode;
+	private String contractCode;
+	private String planCode;
+	private String productCode;
 	
-	String subsidizedMonthlyPremium;
-	String totalMonthlyPremium;
+	private String subsidizedMonthlyPremium;
+	private String totalMonthlyPremium;
 	
+	private PlanBenefits planBenefits;
+	
+	public PlanBenefits getPlanBenefits() {
+		return planBenefits;
+	}
+	public void setPlanBenefits(PlanBenefits planBenefits) {
+		this.planBenefits = planBenefits;
+	}
 	public String getSubsidizedMonthlyPremium() {
 		return subsidizedMonthlyPremium;
 	}
