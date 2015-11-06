@@ -30,7 +30,7 @@ public class Quote {
 	@Valid
 	private List<Applicant> applicant;
 	
-	private List<ProductPlan> productRating;
+	private List<PlanProduct> productRating;
 	
 
 	public String getQuoteReferenceNumber() {
@@ -103,14 +103,14 @@ public class Quote {
 
 
 
-	public List<ProductPlan> getProductRating() {
+	public List<PlanProduct> getProductRating() {
 		return productRating;
 	}
 
 
 
 
-	public void setProductRating(List<ProductPlan> productRating) {
+	public void setProductRating(List<PlanProduct> productRating) {
 		this.productRating = productRating;
 	}
 

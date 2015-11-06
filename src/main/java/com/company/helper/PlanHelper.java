@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.springframework.stereotype.Component;
 
 import com.company.model.PlanBenefits;
-import com.company.model.ProductPlan;
+import com.company.model.PlanProduct;
 import com.company.model.Quote;
 
 @Component
@@ -13,14 +13,14 @@ public class PlanHelper {
 
 	public void addPlanBenefitsToQuote(Quote quote) {
 
-		Iterator<ProductPlan> quoteProductsIter = quote.getProductRating().iterator();
+		Iterator<PlanProduct> quoteProductsIter = quote.getProductRating().iterator();
 		while (quoteProductsIter.hasNext()) {
-			ProductPlan productPlan = (ProductPlan) quoteProductsIter.next();
+			PlanProduct productPlan = (PlanProduct) quoteProductsIter.next();
 			productPlan.setPlanBenefits(getPlanBenefits(productPlan));
 		}
 	}
 
-	private PlanBenefits getPlanBenefits(ProductPlan productPlan) {
+	private PlanBenefits getPlanBenefits(PlanProduct productPlan) {
 		PlanBenefits planBenefits = new PlanBenefits();
 		planBenefits.setPlanBenefits("::planBenefits- SRI");
 		planBenefits.setPlanDeductibles("::planDeductibles-Surya");

@@ -2,7 +2,7 @@ package com.company.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class ProductPlan {
+public class PlanProduct {
 
 	
 	@NotEmpty
